@@ -4,7 +4,7 @@ services:
   musegadget:
     # Prebuilt for arm64 by GitHub Actions (.github/workflows/build-image.yml)
     # on every push — installing the app just pulls it, no build step.
-    image: ghcr.io/thefuckisalommy/muse-on-umbrel/lommy-muse-gadget:latest
+    image: ghcr.io/thefuckisalommy/lommy-muse-gadget:latest
     restart: on-failure
     stop_grace_period: 1m
     # Optional token pre-seed (advanced): create ${APP_DATA_DIR}/token.env
