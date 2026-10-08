@@ -2,7 +2,7 @@ manifestVersion: 1
 id: lommy-muse-gadget
 name: Muse Gadget
 category: developer
-version: "0.1.0-15"
+version: "0.1.0-16"
 tagline: Connect your Muse agent to Umbrel
 icon: https://raw.githubusercontent.com/thefuckisalommy/Muse-on-Umbrel/main/lommy-muse-gadget/icon.svg
 description: >-
@@ -23,7 +23,7 @@ support: https://github.com/thefuckisalommy/muse-on-umbrel/issues
 port: 8756
 path: ""
 releaseNotes: >-
-  Bluetooth is now a proper menu item (header burger menu on every page), so
-  the Android MTU fix and the iPhone fix are easy to find after setup — they
-  previously lived on a page nothing linked to.
+  The Home status card now shows the full Bluetooth setup state: Android MTU
+  fix and iPhone fix each get their own status line, so it's clear at a glance
+  whether you're good to go. (Also: Bluetooth is now a burger-menu item.)
   Pinned to muse-gadget-sdk commit b139b45.
