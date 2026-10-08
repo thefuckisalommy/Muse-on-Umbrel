@@ -365,6 +365,7 @@ pre {{ background: #222; padding: 0.8rem; border-radius: 6px; overflow-x: auto; 
 <summary title="Menu">&#9776;</summary>
 <nav>
 <a href="/" class="{home_active}">Home</a>
+<a href="/bluetooth" class="{bluetooth_active}">Bluetooth</a>
 <a href="/?page=permissions" class="{permissions_active}">Permissions</a>
 <a href="/?page=integrations" class="{integrations_active}">Integrations</a>
 <a href="{umbrel_url}">Exit App</a>
@@ -522,15 +523,17 @@ class Handler(BaseHTTPRequestHandler):
             head_extra=head_extra,
             umbrel_url="//%s/" % host,
             home_active="active" if page == "home" else "",
+            bluetooth_active="active" if page == "bluetooth" else "",
             permissions_active="active" if page == "permissions" else "",
             integrations_active="active" if page == "integrations" else "",
         )
 
     def _redirect_page(self, form):
         page = form.get("page", "home")
-        if page not in ("home", "permissions", "integrations"):
+        if page not in ("home", "permissions", "integrations", "bluetooth"):
             page = "home"
-        return self._redirect("/" if page == "home" else "/?page=" + page)
+        return self._redirect("/bluetooth" if page == "bluetooth"
+                              else "/" if page == "home" else "/?page=" + page)
 
     def _read_post(self):
         try:
@@ -748,7 +751,7 @@ test and remove controls.</p>
                                     html.escape(str(r.get("message", "")))))
         return self._send(self._render(
             BT_CONFIRM.format(current=current, iphone_block=iphone_block),
-            head_extra=head_extra, page="home"))
+            head_extra=head_extra, page="bluetooth"))
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
