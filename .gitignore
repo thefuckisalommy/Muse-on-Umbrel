@@ -1,0 +1,4 @@
+# Never commit the token file (it lives on the Umbrel host, not in git).
+token.env
+*.pyc
+__pycache__/

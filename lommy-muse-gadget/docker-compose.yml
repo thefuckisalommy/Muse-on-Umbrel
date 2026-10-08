@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+  musegadget:
+    # Prebuilt for arm64 by GitHub Actions (.github/workflows/build-image.yml)
+    # on every push — installing the app just pulls it, no build step.
+    image: ghcr.io/thefuckisalommy/muse-on-umbrel/lommy-muse-gadget:latest
+    restart: on-failure
+    stop_grace_period: 1m
+    # Optional token pre-seed (advanced): create ${APP_DATA_DIR}/token.env
+    # containing MUSE_GADGET_TOKEN=mgst_... before installing. Most users
+    # skip this and enter the token in the app's web UI instead.
+    # The file is never committed to git.
+    env_file:
+      - path: ${APP_DATA_DIR}/token.env
+        required: false
+    environment:
+      # The SDK also accepts the token straight from the environment
+      # (MUSEGADGET_SDK_TOKEN), so no token file is baked into the image.
+      - MUSEGADGET_SDK_TOKEN=${MUSE_GADGET_TOKEN}
+      # The daemon's local socket must live somewhere the unprivileged
+      # gadget user can write (the SDK default /run/musegadget is root-only
+      # and would crash-loop the daemon).
+      - MUSEGADGET_SOCKET=/data/state/musegadget.sock
+      # Fallback for the entrypoint's docker-group detection: the entrypoint
+      # reads the GID straight from the socket, so this only matters if the
+      # socket is missing at boot.
+      - DOCKER_GID=${DOCKER_GID:-997}
+      - TZ=${TZ:-UTC}
+    volumes:
+      # Persisted device identity + pairing state.
+      - ${APP_DATA_DIR}/data/state:/data/state
+      # Manage sibling Umbrel app containers (Portainer-style).
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Talk to the host's BlueZ over D-Bus for Bluetooth LE pairing.
+      - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
+      # Read/write view of the host's BlueZ config. The setup page reads it
+      # to detect the missing Android-pairing MTU tweak, and — only when the
+      # user explicitly confirms in the web UI — the root entrypoint applies
+      # the one-line fix (original backed up to /data/state, restorable
+      # from the page). The app never writes here on its own.
+      - /etc/bluetooth:/host-bluetooth:rw
+      # Host systemd units (rw) for the optional iPhone pairing fix: writes a
+      # bluetooth.service drop-in that restarts bluetoothd without the battery
+      # plugin. Only written when the user explicitly confirms in the web UI;
+      # the root entrypoint applies it, and restore removes the drop-in.
+      - /etc/systemd/system:/host-systemd:rw
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8756:8756"

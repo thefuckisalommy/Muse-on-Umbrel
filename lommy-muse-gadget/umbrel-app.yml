@@ -1,0 +1,30 @@
+manifestVersion: 1
+id: lommy-muse-gadget
+name: Muse Gadget
+category: developer
+version: "0.1.0-13"
+tagline: Connect your Muse agent to Umbrel
+icon: https://raw.githubusercontent.com/thefuckisalommy/Muse-on-Umbrel/main/lommy-muse-gadget/icon.svg
+description: >-
+  Packages Meta's open-source Muse Gadgets Linux Device SDK as an Umbrel app
+  (Raspberry Pi only — arm64 image, and pairing needs the Pi's onboard
+  Bluetooth LE).
+  Pair it once with the Muse app on your phone, and Muse can run shell commands,
+  read and write files, and report device health on your Umbrel — for example
+  managing your other Umbrel apps through Docker, or reaching other devices on
+  your LAN such as Home Assistant. Commands run as an unprivileged 'gadget'
+  user. The container mounts the host Docker socket so it can manage sibling
+  containers, and the host D-Bus socket so Bluetooth LE pairing works.
+developer: Lommy
+website: https://github.com/thefuckisalommy/Muse-on-Umbrel
+dependencies: []
+repo: https://github.com/facebookincubator/muse-gadget-sdk
+support: https://github.com/thefuckisalommy/muse-on-umbrel/issues
+port: 8756
+path: ""
+releaseNotes: >-
+  iPhone Bluetooth fix is now a one-tap toggle in the app (writes a systemd
+  drop-in running bluetoothd without the battery plugin, with restore), like
+  the Android MTU fix. Store listing and README now state the app is for
+  umbrelOS on Raspberry Pi only.
+  Pinned to muse-gadget-sdk commit b139b45.

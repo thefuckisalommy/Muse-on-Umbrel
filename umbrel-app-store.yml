@@ -1,0 +1,4 @@
+# Umbrel Community App Store manifest.
+# Add this repo's URL in Umbrel under: App Store -> Community App Stores.
+id: lommy
+name: Lommy
