@@ -2,7 +2,7 @@ manifestVersion: 1
 id: lommy-muse-gadget
 name: Muse Gadget
 category: developer
-version: "0.1.0-14"
+version: "0.1.0-15"
 tagline: Connect your Muse agent to Umbrel
 icon: https://raw.githubusercontent.com/thefuckisalommy/Muse-on-Umbrel/main/lommy-muse-gadget/icon.svg
 description: >-
@@ -23,8 +23,7 @@ support: https://github.com/thefuckisalommy/muse-on-umbrel/issues
 port: 8756
 path: ""
 releaseNotes: >-
-  Image moved to a fresh registry path (ghcr.io/thefuckisalommy/lommy-muse-gadget)
-  after the repo history reset — same app as 0.1.0-13, no functional changes:
-  iPhone Bluetooth fix remains a one-tap toggle, and the listing/README state
-  the app is for umbrelOS on Raspberry Pi only.
+  Bluetooth is now a proper menu item (header burger menu on every page), so
+  the Android MTU fix and the iPhone fix are easy to find after setup — they
+  previously lived on a page nothing linked to.
   Pinned to muse-gadget-sdk commit b139b45.
