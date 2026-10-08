@@ -546,14 +546,34 @@ class Handler(BaseHTTPRequestHandler):
         return dict(urllib.parse.parse_qsl(raw))
 
     def _bt_banner_and_line(self):
-        """Banner (top of page) + status line (in the status card) for the
-        Bluetooth MTU fix, plus a head-extra for auto-refresh while a fix
-        request is being applied by the root entrypoint."""
+        """Banner (top of page) + status lines (in the status card) for the
+        Bluetooth MTU fix and the iPhone fix, plus a head-extra for
+        auto-refresh while a fix request is being applied by the root
+        entrypoint. Home therefore always reflects whether Bluetooth
+        setup is complete."""
         mtu = mtu_status()
         bt = bt_fix_state()
         head_extra = ""
         banner = ""
         line = ""
+
+        # iPhone fix status line: always shown so the status card reflects
+        # the full Bluetooth setup state, not just the MTU fix.
+        ip = bt_iphone_state()
+        if ip["pending"]:
+            head_extra = '<meta http-equiv="refresh" content="5">'
+            iphone_line = ('<p><b class="warn">Applying the iPhone fix&hellip;</b> '
+                           'this takes about 20 seconds; this page refreshes '
+                           'automatically.</p>')
+        elif ip["applied"]:
+            iphone_line = ('<p>iPhone fix: <b class="ok">applied &#10003;</b> '
+                           '<span class="small">(bluetoothd runs without the '
+                           'battery plugin)</span></p>')
+        else:
+            iphone_line = ('<p>iPhone fix: <span class="small">not applied</span> '
+                           '&mdash; <a href="/bluetooth">set up</a> '
+                           '<span class="small">(only needed when pairing from an '
+                           'iPhone)</span></p>')
 
         def result_card():
             r = bt["result"]
@@ -572,14 +592,17 @@ class Handler(BaseHTTPRequestHandler):
             banner = ('<div class="card"><p><b class="warn">Applying the Bluetooth '
                         'fix&hellip;</b> this takes about 20 seconds; this page '
                         'refreshes automatically.</p></div>')
+            line = iphone_line
         elif mtu is False:
             banner = BT_BANNER + result_card()
+            line = iphone_line
         elif mtu is True:
             if bt["has_backup"]:
-                line = BT_APPLIED_LINE + result_card()
+                line = BT_APPLIED_LINE + result_card() + iphone_line
             else:
                 line = ('<p class="small">Host Bluetooth MTU: '
-                        '<b class="ok">256 &#10003;</b> (set manually on the host)</p>')
+                        '<b class="ok">256 &#10003;</b> (set manually on the host)</p>'
+                        + iphone_line)
         return head_extra, banner, line
 
     def _docker_html(self, page="home"):
