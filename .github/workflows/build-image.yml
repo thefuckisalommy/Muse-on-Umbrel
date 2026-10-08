@@ -39,4 +39,4 @@ jobs:
           context: lommy-muse-gadget
           platforms: linux/arm64
           push: true
-          tags: ghcr.io/thefuckisalommy/muse-on-umbrel/lommy-muse-gadget:latest
+          tags: ghcr.io/thefuckisalommy/lommy-muse-gadget:latest
