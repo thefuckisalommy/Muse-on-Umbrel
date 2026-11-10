@@ -1,0 +1,32 @@
+# Heirloom — Umbrel app manifest
+# Lives in the Lommy community store (thefuckisalommy/Muse-on-Umbrel),
+# same pattern as lommy-muse-gadget. App id `heirloom`, port 3100.
+manifestVersion: 1
+id: heirloom
+category: bitcoin
+name: Heirloom
+version: "0.1.0"
+tagline: Bitcoin inheritance — the map, the messenger, the rehearsal
+description: >-
+  Heirloom helps you prepare a Bitcoin inheritance without ever holding keys.
+  It keeps a vault map (multisig descriptor, key locations, quorum), checks
+  in with you on a schedule, and — if you stop checking in — releases a
+  two-part message to your chosen person: a plaintext notification, plus an
+  encrypted recovery guide only they can unlock with a password they already
+  hold. Delivery is stubbed in this build (it logs what would be sent and
+  sends nothing); the UI is ready first.
+developer: Lommy
+website: https://github.com/thefuckisalommy/Muse-on-Umbrel
+dependencies: []
+repo: https://github.com/thefuckisalommy/Muse-on-Umbrel
+support: https://github.com/thefuckisalommy/Muse-on-Umbrel/issues
+port: 3100
+torOnly: false
+icon: https://raw.githubusercontent.com/thefuckisalommy/Muse-on-Umbrel/main/heirloom/icon.svg
+# gallery: # TODO: add screenshots before store submission
+#   - 1.jpg
+#   - 2.jpg
+releaseNotes: >-
+  0.1.0 — UI-first scaffold. Vault map, check-in status, two-part release
+  editor with working client-side encryption, delivery settings (stubbed),
+  and fire-drill checklist. JSON file storage, no database.
